@@ -250,6 +250,15 @@
       font-size: 14px;
     }
 
+    .hidden-field {
+      position: absolute;
+      left: -10000px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
     .diagnostic {
       display: grid;
       gap: 18px;
@@ -412,16 +421,36 @@
       <div class="wrap split">
         <div>
           <h2>How Delivery Works</h2>
-          <p class="compact">Pay first, then email a sanitized workflow description. Keep passwords, private keys, bank details, medical details, legal secrets, and customer secrets out of the message.</p>
+          <p class="compact">Pay first, then send a sanitized workflow description through the intake form. Keep passwords, private keys, bank details, medical details, legal secrets, and customer secrets out of the message.</p>
         </div>
-        <form>
+        <form action="https://formsubmit.co/veridianledger@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="New Veridian workflow diagnostic intake">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="https://veridian-ledger.github.io/veridian-ledger/intake-thanks.html">
+          <label class="hidden-field">
+            Leave this blank
+            <input name="_honey" tabindex="-1" autocomplete="off">
+          </label>
+          <label>
+            Name
+            <input name="name" autocomplete="name" required placeholder="Your name">
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" autocomplete="email" required placeholder="you@example.com">
+          </label>
+          <label>
+            Payment email
+            <input type="email" name="payment_email" autocomplete="email" placeholder="If different from your contact email">
+          </label>
           <label>
             Workflow
-            <textarea name="workflow" placeholder="What repetitive workflow wastes time each week?"></textarea>
+            <textarea name="workflow" required placeholder="What repetitive workflow wastes time each week?"></textarea>
           </label>
           <label>
             Frequency
-            <input name="frequency" placeholder="How often does it happen?">
+            <input name="frequency" required placeholder="How often does it happen?">
           </label>
           <label>
             Tools involved
@@ -439,7 +468,8 @@
             Desired output
             <textarea name="output" placeholder="What should exist when the workflow is done?"></textarea>
           </label>
-          <p class="note">After payment, send these details to veridianledger@gmail.com with the payment email so the order can be matched. If the workflow is high-risk, the recommendation may be "do not automate without qualified human review."</p>
+          <button class="button" type="submit">Send intake</button>
+          <p class="note">Use the same email you used for payment when possible so the order can be matched. If the workflow is high-risk, the recommendation may be "do not automate without qualified human review."</p>
         </form>
       </div>
     </section>
