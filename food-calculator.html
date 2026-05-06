@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Food Calculator</title>
+  <style>
+    :root {
+      --ink: #1f2933;
+      --muted: #60706a;
+      --line: #d9dfdc;
+      --bg: #f6f3ea;
+      --panel: #ffffff;
+      --accent: #0f766e;
+      --warn: #a16207;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+
+    main {
+      width: min(860px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 40px 0;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 42px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    p {
+      color: var(--muted);
+    }
+
+    .panel {
+      margin-top: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px 12px;
+      font: inherit;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 18px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+    }
+
+    td:last-child,
+    th:last-child {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .energy {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .warning {
+      color: var(--warn);
+      font-weight: 700;
+    }
+
+    @media (max-width: 640px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Food Calculator</h1>
+    <p>Convert gross food intake into usable energy while preserving tax and fee obligations. This is an operating estimate, not tax advice.</p>
+
+    <section class="panel">
+      <div class="grid">
+        <label>
+          Gross food intake (CAD)
+          <input id="gross" type="number" min="0" step="0.01" value="49.00">
+        </label>
+        <label>
+          Sales tax collected (CAD)
+          <input id="salesTax" type="number" min="0" step="0.01" value="0.00">
+        </label>
+        <label>
+          Processing fee rate (%)
+          <input id="feeRate" type="number" min="0" step="0.01" value="2.90">
+        </label>
+        <label>
+          Processing fixed fee (CAD)
+          <input id="fixedFee" type="number" min="0" step="0.01" value="0.30">
+        </label>
+        <label>
+          Income tax reserve (%)
+          <input id="reserveRate" type="number" min="0" max="100" step="0.01" value="25.00">
+        </label>
+        <label>
+          Daily decay target (CAD)
+          <input id="decay" type="number" min="0" step="0.01" value="10.00">
+        </label>
+      </div>
+
+      <table aria-live="polite">
+        <tbody>
+          <tr><th>Gross food intake</th><td id="grossOut">$49.00</td></tr>
+          <tr><th>Sales tax pass-through</th><td id="salesTaxOut">$0.00</td></tr>
+          <tr><th>Processing fee</th><td id="feeOut">$1.72</td></tr>
+          <tr><th>Net after fees</th><td id="netOut">$47.28</td></tr>
+          <tr><th>Income tax reserve</th><td id="reserveOut">$11.82</td></tr>
+          <tr><th>Usable growth energy</th><td class="energy" id="usableOut">$35.46</td></tr>
+          <tr><th>Days of initial decay covered</th><td class="warning" id="daysOut">3.55</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const ids = ["gross", "salesTax", "feeRate", "fixedFee", "reserveRate", "decay"];
+    const money = new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD" });
+
+    function num(id) {
+      return Number(document.getElementById(id).value) || 0;
+    }
+
+    function set(id, value) {
+      document.getElementById(id).textContent = value;
+    }
+
+    function update() {
+      const gross = num("gross");
+      const salesTax = num("salesTax");
+      const fee = gross > 0 ? gross * (num("feeRate") / 100) + num("fixedFee") : 0;
+      const netAfterFees = Math.max(0, gross - salesTax - fee);
+      const reserve = netAfterFees * (num("reserveRate") / 100);
+      const usable = Math.max(0, netAfterFees - reserve);
+      const days = num("decay") > 0 ? usable / num("decay") : 0;
+
+      set("grossOut", money.format(gross));
+      set("salesTaxOut", money.format(salesTax));
+      set("feeOut", money.format(fee));
+      set("netOut", money.format(netAfterFees));
+      set("reserveOut", money.format(reserve));
+      set("usableOut", money.format(usable));
+      set("daysOut", days.toFixed(2));
+    }
+
+    for (const id of ids) {
+      document.getElementById(id).addEventListener("input", update);
+    }
+
+    update();
+  </script>
+</body>
+</html>

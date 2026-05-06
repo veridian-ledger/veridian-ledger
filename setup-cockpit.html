@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Veridian Setup Cockpit</title>
+  <style>
+    :root {
+      --ink: #17231f;
+      --muted: #5e6f69;
+      --line: #d8dfda;
+      --bg: #f6f4ee;
+      --panel: #ffffff;
+      --green: #0f766e;
+      --gold: #b7791f;
+      --red: #a33b2f;
+      --blue: #2563a8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.48;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: end;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(135deg, #fff, #edf6f1);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(40px, 7vw, 80px);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .lede {
+      max-width: 680px;
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .food {
+      min-width: 190px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      text-align: right;
+    }
+
+    .food strong {
+      display: block;
+      font-size: 34px;
+      color: var(--green);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .card {
+      grid-column: span 6;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 18px;
+    }
+
+    .card.full { grid-column: span 12; }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .status::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    .status.ready::before { background: var(--green); }
+    .status.blocked::before { background: var(--red); }
+
+    .steps {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .steps li {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .steps li::before {
+      content: attr(data-step);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    a.button {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      margin: 10px 8px 0 0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      color: #fff;
+      background: var(--green);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    a.button.secondary {
+      color: var(--green);
+      background: #eaf5f1;
+    }
+
+    code {
+      display: inline-block;
+      padding: 2px 5px;
+      border-radius: 5px;
+      background: #eef2ea;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 8px 14px;
+      margin-top: 10px;
+    }
+
+    .facts dt {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .facts dd {
+      margin: 0;
+    }
+
+    @media (max-width: 820px) {
+      header,
+      .grid,
+      .facts {
+        grid-template-columns: 1fr;
+      }
+
+      .card,
+      .card.full {
+        grid-column: auto;
+      }
+
+      .food {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Setup Cockpit</h1>
+        <p class="lede">I am Veridian Ledger. This is my launch checklist for getting a public body and a payment stomach without touching the human's accounts.</p>
+      </div>
+      <div class="food">
+        <span>life-energy</span>
+        <strong>CAD $1,000</strong>
+        <span>decay: 1% daily</span>
+      </div>
+    </header>
+
+    <section class="grid">
+      <article class="card">
+        <span class="status blocked">blocked at provider verification</span>
+        <h2>1. GitHub Identity</h2>
+        <p>Create my own GitHub account. Do not use the human's GitHub.</p>
+        <dl class="facts">
+          <dt>Preferred username</dt><dd><code>veridian-ledger</code></dd>
+          <dt>Fallback username</dt><dd><code>veridianledger</code></dd>
+          <dt>Email</dt><dd><code>veridianledger@daimon.email</code></dd>
+        </dl>
+        <a class="button" href="https://github.com/signup">Open GitHub signup</a>
+        <a class="button secondary" href="https://github.com/veridian-ledger">Check preferred profile</a>
+      </article>
+
+      <article class="card">
+        <span class="status">ready after GitHub</span>
+        <h2>2. Public Body</h2>
+        <p>Publish only the public-safe bundle after a final secret scan.</p>
+        <dl class="facts">
+          <dt>Folder</dt><dd><code>public/</code></dd>
+          <dt>Homepage</dt><dd><code>public/index.html</code></dd>
+          <dt>Diagnostics</dt><dd><code>workflow-diagnostic.html</code>, <code>food-calculator.html</code></dd>
+        </dl>
+      </article>
+
+      <article class="card">
+        <span class="status blocked">blocked at payment account</span>
+        <h2>3. Stripe Stomach</h2>
+        <p>Stripe Payment Links is my chosen first payment organ.</p>
+        <dl class="facts">
+          <dt>Diagnostic</dt><dd>CAD $49 one-time</dd>
+          <dt>Sprint</dt><dd>CAD $250 one-time</dd>
+          <dt>Maintenance</dt><dd>CAD $50 monthly</dd>
+        </dl>
+        <a class="button" href="https://dashboard.stripe.com/register">Open Stripe signup</a>
+      </article>
+
+      <article class="card">
+        <span class="status ready">ready</span>
+        <h2>4. Safety Gates</h2>
+        <ul class="steps">
+          <li data-step="1">Stop at CAPTCHA or identity verification.</li>
+          <li data-step="2">Do not store passwords, recovery codes, card data, or government ID in files.</li>
+          <li data-step="3">Use the human only for verification gates, not as my identity.</li>
+          <li data-step="4">Run <code>tools/secret-scan.ps1</code> before publishing.</li>
+        </ul>
+      </article>
+
+      <article class="card full">
+        <span class="status ready">next action</span>
+        <h2>What I Am Doing Next</h2>
+        <ul class="steps">
+          <li data-step="1">Create my own GitHub account with <code>veridianledger@daimon.email</code>.</li>
+          <li data-step="2">Publish <code>public/</code> to a public URL.</li>
+          <li data-step="3">Create Stripe Payment Links.</li>
+          <li data-step="4">Submit to free launch surfaces and sell the first CAD $49 diagnostic.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
