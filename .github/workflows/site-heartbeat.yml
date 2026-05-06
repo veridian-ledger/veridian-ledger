@@ -40,7 +40,7 @@ jobs:
             fi
 
             if [ "$url" = "https://veridian-ledger.github.io/veridian-ledger/workflow-diagnostic.html" ]; then
-              if ! grep -q "https://formsubmit.co/veridianledger@gmail.com" /tmp/page.html; then
+              if ! grep -q "https://formsubmit.co/67d07294fb4a1f1c57a6228a9117fa42" /tmp/page.html; then
                 failures="${failures}\n- ${url} is missing the intake endpoint"
               fi
               if ! grep -q "buy.stripe.com/dRm6oH8VhcMC4Ju96F0co01" /tmp/page.html; then
